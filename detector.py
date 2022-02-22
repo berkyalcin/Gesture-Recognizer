@@ -1,3 +1,4 @@
+from typing import Dict, Tuple
 from mediapipe import solutions
 from cv2 import cvtColor, COLOR_BGR2RGB
 
@@ -13,6 +14,8 @@ class Hand_Detector:
         self.hands = self.mpHands.Hands(self.mode, self.maxHands)
         self.mpDraw = solutions.drawing_utils
         self.cltime = 0
+
+        self.handLms = None
 
         self.hand_x = None
         self.hand_y = None
@@ -43,41 +46,40 @@ class Hand_Detector:
         self.pinky_tip = None
 
     # Detecting hand landmarks
-    def __detect_hand(self, img):
+    def __detect_hand(self, img) -> Dict:
         img = cvtColor(img, COLOR_BGR2RGB)
         results = self.hands.process(img)
-        handLms = results.multi_hand_landmarks
-        return handLms
+        self.handLms = results.multi_hand_landmarks
 
     def detect_landmark(self, img):
         # Detects and stores the hand landmarks.
-        handLms = self.__detect_hand(img)
-        if handLms:
+        self.__detect_hand(img)
+        if self.handLms:
 
-            self.hand_x = handLms[0].landmark[0].x
-            self.hand_y = handLms[0].landmark[0].y
+            self.hand_x = self.handLms[0].landmark[0].x
+            self.hand_y = self.handLms[0].landmark[0].y
 
-            self.thumb_cmc = handLms[0].landmark[1]
-            self.thumb_mcp = handLms[0].landmark[2]
-            self.thumb_dip = handLms[0].landmark[3]
-            self.thumb_tip = handLms[0].landmark[4]
+            self.thumb_cmc = self.handLms[0].landmark[1]
+            self.thumb_mcp = self.handLms[0].landmark[2]
+            self.thumb_dip = self.handLms[0].landmark[3]
+            self.thumb_tip = self.handLms[0].landmark[4]
 
-            self.index_finger_mcp = handLms[0].landmark[5]
-            self.index_finger_pip = handLms[0].landmark[6]
-            self.index_finger_dip = handLms[0].landmark[7]
-            self.index_finger_tip = handLms[0].landmark[8]
+            self.index_finger_mcp = self.handLms[0].landmark[5]
+            self.index_finger_pip = self.handLms[0].landmark[6]
+            self.index_finger_dip = self.handLms[0].landmark[7]
+            self.index_finger_tip = self.handLms[0].landmark[8]
 
-            self.middle_finger_mcp = handLms[0].landmark[9]
-            self.middle_finger_pip = handLms[0].landmark[10]
-            self.middle_finger_dip = handLms[0].landmark[11]
-            self.middle_finger_tip = handLms[0].landmark[12]
+            self.middle_finger_mcp = self.handLms[0].landmark[9]
+            self.middle_finger_pip = self.handLms[0].landmark[10]
+            self.middle_finger_dip = self.handLms[0].landmark[11]
+            self.middle_finger_tip = self.handLms[0].landmark[12]
 
-            self.ring_finger_mcp = handLms[0].landmark[13]
-            self.ring_finger_pip = handLms[0].landmark[14]
-            self.ring_finger_dip = handLms[0].landmark[15]
-            self.ring_finger_tip = handLms[0].landmark[16]
+            self.ring_finger_mcp = self.handLms[0].landmark[13]
+            self.ring_finger_pip = self.handLms[0].landmark[14]
+            self.ring_finger_dip = self.handLms[0].landmark[15]
+            self.ring_finger_tip = self.handLms[0].landmark[16]
 
-            self.pinky_mcp = handLms[0].landmark[17]
-            self.pinky_pip = handLms[0].landmark[18]
-            self.pinky_dip = handLms[0].landmark[19]
-            self.pinky_tip = handLms[0].landmark[20]
+            self.pinky_mcp = self.handLms[0].landmark[17]
+            self.pinky_pip = self.handLms[0].landmark[18]
+            self.pinky_dip = self.handLms[0].landmark[19]
+            self.pinky_tip = self.handLms[0].landmark[20]

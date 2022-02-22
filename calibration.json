@@ -1,0 +1,9 @@
+{
+    "calibrationFile": {
+        "thumb_distance": 0.25,
+        "index_distance": 0.15,
+        "middle_distance": 0.15,
+        "ring_distance": 0.35,
+        "pinky_distance": 0.45
+    }
+}
