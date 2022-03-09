@@ -1,10 +1,9 @@
-from typing import Dict, Tuple
 from mediapipe import solutions
 from cv2 import cvtColor, COLOR_BGR2RGB
 
 
 class Hand_Detector:
-    def __init__(self, mode=False, maxHands=1, detectCon=0.5, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=1, detectCon=0.9, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
         self.detectCon = detectCon
@@ -46,15 +45,19 @@ class Hand_Detector:
         self.pinky_tip = None
 
     # Detecting hand landmarks
-    def __detect_hand(self, img) -> Dict:
+    def __detect_hand(self, img) -> dict:
         img = cvtColor(img, COLOR_BGR2RGB)
         results = self.hands.process(img)
         self.handLms = results.multi_hand_landmarks
 
-    def detect_landmark(self, img):
+    def detect_landmark(self, img, handLms=None) -> None:
         # Detects and stores the hand landmarks.
+        # Uses __detect_hand if there handLms is not give. Otherwise, uses the given handLms
         self.__detect_hand(img)
         if self.handLms:
+            if handLms:
+                print(handLms)
+                self.handLms = handLms
 
             self.hand_x = self.handLms[0].landmark[0].x
             self.hand_y = self.handLms[0].landmark[0].y

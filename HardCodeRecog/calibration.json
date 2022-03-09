@@ -1,0 +1,14 @@
+{
+    "calibrationFile": {
+        "thumb_distance_max": 0.25,
+        "thumb_distance_min": 0.25,
+        "index_distance_max": 0.15,
+        "index_distance_min": 0.15,
+        "middle_distance_max": 0.15,
+        "middle_distance_in": 0.15,
+        "ring_distance_max": 0.35,
+        "ring_distance_min": 0.35,
+        "pinky_distance_max": 0.45,
+        "pinky_distance_min": 0.45
+    }
+}
