@@ -19,6 +19,8 @@ class Hand_Detector:
         self.hand_x = None
         self.hand_y = None
 
+        self.wrist = None
+
         self.thumb_cmc = None
         self.thumb_mcp = None
         self.thumb_dip = None
@@ -44,7 +46,11 @@ class Hand_Detector:
         self.pinky_dip = None
         self.pinky_tip = None
 
+        self.landmark_listX: list
+        self.landmark_listY: list
+
     # Detecting hand landmarks
+
     def __detect_hand(self, img) -> dict:
         img = cvtColor(img, COLOR_BGR2RGB)
         results = self.hands.process(img)
@@ -56,11 +62,12 @@ class Hand_Detector:
         self.__detect_hand(img)
         if self.handLms:
             if handLms:
-                print(handLms)
                 self.handLms = handLms
 
             self.hand_x = self.handLms[0].landmark[0].x
             self.hand_y = self.handLms[0].landmark[0].y
+
+            self.wrist = self.handLms[0].landmark[0]
 
             self.thumb_cmc = self.handLms[0].landmark[1]
             self.thumb_mcp = self.handLms[0].landmark[2]
@@ -86,3 +93,15 @@ class Hand_Detector:
             self.pinky_pip = self.handLms[0].landmark[18]
             self.pinky_dip = self.handLms[0].landmark[19]
             self.pinky_tip = self.handLms[0].landmark[20]
+
+            self.landmark_listX = [self.thumb_cmc.x, self.thumb_mcp.x, self.thumb_dip.x, self.thumb_tip.x,
+                                   self.index_finger_dip.x, self.index_finger_mcp.x, self.index_finger_pip.x, self.index_finger_tip.x,
+                                   self.middle_finger_dip.x, self.middle_finger_mcp.x, self.middle_finger_pip.x, self.middle_finger_tip.x,
+                                   self.ring_finger_dip.x, self.ring_finger_mcp.x, self.ring_finger_mcp.x, self.ring_finger_dip.x, self.ring_finger_tip.x,
+                                   self.pinky_dip.x, self.pinky_mcp.x, self.pinky_pip.x, self.pinky_tip.x]
+
+            self.landmark_listY = [self.thumb_cmc.y, self.thumb_mcp.y, self.thumb_dip.y, self.thumb_tip.y,
+                                   self.index_finger_dip.y, self.index_finger_mcp.y, self.index_finger_pip.y, self.index_finger_tip.y,
+                                   self.middle_finger_dip.y, self.middle_finger_mcp.y, self.middle_finger_pip.y, self.middle_finger_tip.y,
+                                   self.ring_finger_dip.y, self.ring_finger_mcp.y, self.ring_finger_mcp.y, self.ring_finger_dip.y, self.ring_finger_tip.y,
+                                   self.pinky_dip.y, self.pinky_mcp.y, self.pinky_pip.y, self.pinky_tip.y]

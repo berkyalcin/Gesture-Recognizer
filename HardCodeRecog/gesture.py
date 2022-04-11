@@ -1,7 +1,8 @@
-from time import sleep
-from cv2 import VideoCapture, imshow
-from HardCodeRecog.detector import Hand_Detector
+from cv2 import VideoCapture
 from json import load
+from abc import abstractmethod, ABC
+
+from HardCodeRecog.detector import Hand_Detector
 
 
 class WebcamException(Exception):
@@ -36,7 +37,7 @@ class _Utils:
             return None
 
 
-class Gesture:
+class Gesture(ABC):
     """
     Main class to detect gestures. Necessary functions and variables are declared.\n
     Subclasses of gestures to be recognized:\n
@@ -45,6 +46,7 @@ class Gesture:
     - Middle Finger\n
     """
 
+    @abstractmethod
     def __init__(self):
         self.utils = _Utils()
         self.detector = Hand_Detector(maxHands=5, mode=False)
@@ -124,11 +126,27 @@ class Gesture:
         else:
             self.__pinky_open = False
 
+    def __detect_all(self, image) -> None:
+        self.detector.detect_landmark(image)
+        self.__detect_thumb_open(
+            self.detector.pinky_mcp, self.detector.thumb_tip)
+        self.__detect_index_open(
+            self.detector.thumb_mcp, self.detector.index_finger_tip)
+        self.__detect_middle_open(
+            self.detector.thumb_mcp, self.detector.middle_finger_tip)
+        self.__detect_ring_open(self.detector.wrist,
+                                self.detector.ring_finger_tip)
+        self.__detect_pinky_open(self.detector.wrist, self.detector.pinky_dip)
+
     def test(self):
         """Just for test purposes."""
         with open("calibration.json", "r") as f:
             json_file = load(f)
             print(json_file["calibrationFile"])
+
+    @abstractmethod
+    def detect_gesture():
+        pass
 
 
 if __name__ == "__main__":
