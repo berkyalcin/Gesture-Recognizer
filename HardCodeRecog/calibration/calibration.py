@@ -1,14 +1,19 @@
 from time import sleep
 from cv2 import VideoCapture, imshow
 from HardCodeRecog.detector import Hand_Detector
+from drawing_utils import Drawing_Utils
 from json import load
+
+
 class WebcamException(Exception):
     def __str__():
         return "An error has occured while trying to reach webcam. Please try again with a different webcam or port."
 
+
 class Calibration():
     def __init__(self) -> None:
-        pass    
+        self.dutils = Drawing_Utils()
+
     def __calibration_func(self, finger_1, finger_2, open_threshold=0.03):
         """A function to detect necessary distances."""
         open_value = self.utils.distance_calculator(
@@ -39,6 +44,20 @@ class Calibration():
             json_file = load(f)
             json_file[json_main_branch][distance_max_key] = distance_max
             json_file[json_main_branch][distance_min_key] = distance_min
+
+    def calibration(self, error_threshold=0.1) -> None:
+        """
+        Calibrates the distance between certain landmarks.\n
+        error_threshold ==> Small error percentage to be added after calibration.
+        open_threshold ==> Difference between the open and closed acts of fingers. 
+        """
+
+        self.detector = Hand_Detector(mode=True)
+        while True:
+            _, frame = self.vcap.read()
+            if _:
+                self.dutils.put_text(frame, "Show Your Hand with Fingers Open")
+                imshow("Calibration", frame)
 
     def calibration_main(self, error_threshold=0.1) -> None:
         """

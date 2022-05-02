@@ -13,7 +13,7 @@ class Thumbs_Up(Gesture):
 
     def detect_landmark(self):
         """Detects the landmark of the image. \n
-        Landmarks can be called from super().detector"""
+        Landmarks can be called from Thumbs_Up.detector"""
         self.detector.detect_landmark(self.image)
 
     def detect_gesture(self):

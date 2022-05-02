@@ -3,7 +3,7 @@ from cv2 import cvtColor, COLOR_BGR2RGB
 
 
 class Hand_Detector:
-    def __init__(self, mode=False, maxHands=1, detectCon=0.9, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=3, detectCon=0.9, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
         self.detectCon = detectCon
