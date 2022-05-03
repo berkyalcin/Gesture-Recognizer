@@ -28,11 +28,17 @@ class Drawing_Utils():
         return image
 
     def put_text(self, image, text, color=(0, 255, 0), font=FONT_HERSHEY_SIMPLEX, font_scale=1, place=(50, 50), thickness=2):
+        """
+        Creates a text on the image.
+        """
         image = putText(image, text, place, font, font_scale,
                         color, thickness, LINE_AA)
         return image
 
     def draw_landmark(self, image, landmark):
+        """
+        Draws the landmarks with the given posisions, which are between 1 and 0.
+        """
         h, w, c = image.shape
         image = circle(image, (int(landmark.x*w), int(landmark.y*h)),
                        1, color=(0, 255, 0), thickness=-1)
@@ -40,7 +46,7 @@ class Drawing_Utils():
 
     def draw_line(self, image, pt1, pt2):
         """
-        Draw line between two points.\n
+        Draws line between two points.\n
         Points should be given as landmarks.
         """
         h, w, c = image.shape
