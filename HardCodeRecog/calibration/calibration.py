@@ -12,6 +12,9 @@ class WebcamException(Exception):
 
 class Calibration():
     def __init__(self) -> None:
+        """
+        Calibration isn't ready for use. This class will be available to be used in other versions.
+        """
         self.dutils = Drawing_Utils()
 
     def __calibration_func(self, finger_1, finger_2, open_threshold=0.03):

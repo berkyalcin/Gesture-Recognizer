@@ -58,7 +58,7 @@ class Hand_Detector:
 
     def detect_landmark(self, img, handLms=None) -> None:
         # Detects and stores the hand landmarks.
-        # Uses __detect_hand if there handLms is not give. Otherwise, uses the given handLms
+        # Uses __detect_hand if the handLms is not given. Otherwise, uses the given handLms
         self.__detect_hand(img)
         if self.handLms:
             if handLms:
