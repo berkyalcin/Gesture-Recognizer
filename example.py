@@ -1,24 +1,43 @@
-from matplotlib import image
-from GestureBPs import thumbs_up
-from setup import Setup
-from cv2 import imread
+import time
+from GestureBPs.thumbs_up import Thumbs_Up
+from GestureBPs.high_five import High_Five
+from HardCodeRecog.drawing_utils import Drawing_Utils
+from cv2 import VideoCapture, imshow, waitKey, destroyAllWindows
+import cv2
 
-setup = Setup()
+vcap = VideoCapture(0)
+thumbup = Thumbs_Up()
+highFive = High_Five()
+dutils = Drawing_Utils()
 
-thumb_detector = thumbs_up.Thumbs_Up()
-thumb_detector1 = thumbs_up.Thumbs_Up()
+while True:
+    destroyAllWindows()
 
-image_thumbs = imread("thumbs3.jpeg")
-image_thumbs1 = imread("thumb1.png")
+    _, frame = vcap.read()
 
-thumb_detector.get_image(image_thumbs)
-thumb_detector1.get_image(image_thumbs1)
+    thumbup.get_image(frame)
+    thumbup.detect_landmark()
+    highFive.get_image(frame)
+    highFive.detect_landmark()
 
-thumb_detector.detect_landmark()
-thumb_detector1.detect_landmark()
+    result_thumb = False
+    result_h5 = False
 
-if (thumb_detector.detector.handLms and thumb_detector1.detector.handLms):
-    print(thumb_detector.detect_gesture())
-    print(thumb_detector1.detect_gesture())
-else:
-    print("Nonetype")
+    if thumbup.detector.handLms:
+        result_thumb = thumbup.detect_gesture()
+        result_h5 = highFive.detect_gesture()
+
+        frame = dutils.draw_hand(
+            frame, thumbup.detector.landmark_listX, thumbup.detector.landmark_listY)
+
+    if result_thumb:
+        dutils.put_text(frame, "Thumb_Up")
+
+    elif result_h5:
+        dutils.put_text(frame, "High Five")
+
+    else:
+        dutils.put_text(frame, "None")
+
+    imshow("Image", frame)
+    waitKey(10)

@@ -6,6 +6,12 @@ class Drawing_Utils():
         pass
 
     def draw_hand(self, image, landmarksX, landmarksY):
+        """
+        Draws a contour box around the hand. \n
+        Takes the arguments landmarksX and landmarksY, both can be obtained from Gesture.detector\n
+        landmarksX = Gesture.detector.landmarksX\n
+        landmarksY = Gesture.detector.landmarksY\n
+        """
         h, w, c = image.shape
         x_min = min(landmarksX)
         y_min = min(landmarksY)
